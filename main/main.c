@@ -58,7 +58,7 @@ void app_main(void) {
     
     xTaskCreate(printTask,"printer",2048,NULL,5,&taskHandles.print);
     xTaskCreate(sensorTask,"sensor",2048,NULL,5,&taskHandles.sensor);
-    xTaskCreate(cameraTask,"camera",4096,NULL,5,&taskHandles.camera);
+    xTaskCreate(cameraTask,"camera",2048,NULL,5,&taskHandles.camera);
     xTaskCreate(relayTask,"relay",2048,NULL,4,&taskHandles.relay);
     xTaskCreate(sendPictureTask,"picture",2048,NULL,4,&taskHandles.sendPicture);
 
