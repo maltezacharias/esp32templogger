@@ -33,7 +33,7 @@ void sensorTask(void *pvParameter)
         sensorsCount++;
         owb_search_next(owb, &search_state, &found);
     }
-    ESP_LOGI(TAG,"Found %d device%s\n", sensorsCount, sensorsCount == 1 ? "" : "s");
+    ESP_LOGI(TAG,"Found %d device%s", sensorsCount, sensorsCount == 1 ? "" : "s");
 
     for (;;) vTaskDelay(500 / portTICK_PERIOD_MS);
     /*vTaskDelete(NULL);*/
