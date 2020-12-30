@@ -80,7 +80,7 @@ void printTask(void * taskParameters) {
 
 void sendPictureTask(void * TaskParameters) {
     for  (;;) {
-        ESP_LOGI("main:sendPicture", "Trying to get Sempahore and simulate sending");
+        ESP_LOGI("main:sendPicture", "Trying to get Semaphore and simulate sending");
         xSemaphoreTake(pictureSemaphore,portMAX_DELAY);
         ESP_LOGI("main:sendPicture", "Got picture, sending!");
         vTaskDelay(300 / portTICK_PERIOD_MS);
