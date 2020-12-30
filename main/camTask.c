@@ -4,6 +4,8 @@
 #include "freertos/task.h"
 #include "esp_camera.h"
 #include "esp_log.h"
+#include "freertos/semphr.h"
+#include "queues.h"
 
 #define CAM_PIN_PWDN 32
 #define CAM_PIN_RESET -1 //software reset will be performed
@@ -73,14 +75,20 @@ static esp_err_t init_camera()
 void cameraTask(void * taskParameters) {
     init_camera();
 
-    while (1)
-    {
+    ESP_LOGI(TAG, "Taking initial picture...");
+    camera_fb_t *pic = esp_camera_fb_get();
+    ESP_LOGI(TAG, "Picture taken! Its size was: %zu bytes. Will release Semaphore!", pic->len);
+    xSemaphoreGive(pictureSemaphore);
+
+    /* Enter picture loop */
+    for (;;) {
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
+        ESP_LOGI(TAG, "Ready for taking picture, getting semaphore");
+        xSemaphoreTake(pictureSemaphore, portMAX_DELAY);
         ESP_LOGI(TAG, "Taking picture...");
         camera_fb_t *pic = esp_camera_fb_get();
-
         // use pic->buf to access the image
-        ESP_LOGI(TAG, "Picture taken! Its size was: %zu bytes", pic->len);
-
-        vTaskDelay(5000 / portTICK_PERIOD_MS);
+        ESP_LOGI(TAG, "Picture taken! Its size was: %zu bytes. Releasing semaphore", pic->len);
+        xSemaphoreGive(pictureSemaphore);
     }
 }
