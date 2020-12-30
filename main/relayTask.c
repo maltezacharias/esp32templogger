@@ -4,10 +4,11 @@
 #include "relayTask.h"
 #include "driver/gpio.h"
 
-static const char* TAG = "switch";
+static const char* TAG = "switchTask";
 
 void relayTask(void *taskParameters) {
 
+    ESP_LOGI(TAG,"Initializing GPIO");
     uint32_t level = 0;
     gpio_config_t config = {
         .mode = GPIO_MODE_OUTPUT,

@@ -73,6 +73,7 @@ static esp_err_t init_camera()
 
 
 void cameraTask(void * taskParameters) {
+    ESP_LOGI(TAG, "Initializing Camera");
     init_camera();
 
     ESP_LOGI(TAG, "Taking initial picture...");
