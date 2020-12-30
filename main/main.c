@@ -13,13 +13,13 @@ static const char* TAG = "main";
 #include "freertos/task.h"
 #include "esp_system.h"
 #include "esp_log.h"
-#include "collect_temperatures.h"
 #include "globals.h"
 
 #include "freertos/queue.h"
 #include "queues.h"
 #include "freertos/semphr.h"
 
+#include "sensorTask.h"
 #include "camTask.h"
 #include "relayTask.h"
 
@@ -57,7 +57,7 @@ void app_main(void) {
     ESP_LOGI(TAG,"Starting Tasks");
     
     xTaskCreate(printTask,"printer",2048,NULL,5,&taskHandles.print);
-    xTaskCreate(sensor_task,"sensor",2048,NULL,5,&taskHandles.sensor);
+    xTaskCreate(sensorTask,"sensor",2048,NULL,5,&taskHandles.sensor);
     xTaskCreate(cameraTask,"camera",4096,NULL,5,&taskHandles.camera);
     xTaskCreate(relayTask,"relay",2048,NULL,4,&taskHandles.relay);
     xTaskCreate(sendPictureTask,"picture",2048,NULL,4,&taskHandles.sendPicture);
