@@ -5,7 +5,7 @@ ESP32 Based Wifi Temperature logger for [custom hardware based on ESP32-Cam Modu
 
 ## Status
 
-Software: Work in progress
+**Software: Work in progress**
 
 Hardware: First prototype built, v0.2 committed to GitHub but never actually manufactured and tested.
 
