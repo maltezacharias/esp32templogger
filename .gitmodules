@@ -6,4 +6,4 @@
 	url = git@github.com:DavidAntliff/esp32-ds18b20.git
 [submodule "components/esp32-camera"]
 	path = components/esp32-camera
-	url = git@github.com:espressif/esp32-camera.git
+	url = git@github.com:maltezacharias/esp32-camera.git
