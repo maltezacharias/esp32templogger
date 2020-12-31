@@ -1,4 +1,4 @@
 idf_component_register(
-    SRCS "relayTask.c" "camTask.c" "mqttTask.c" "sensorTask.c" "main.c"
+    SRCS "app_main.c" "relayTask.c" "camTask.c" "mqttTask.c" "sensorTask.c"
     INCLUDE_DIRS ""
 )
