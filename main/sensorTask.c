@@ -11,6 +11,7 @@
 OneWireBus * owb;
 DS18B20_Info * sensors[MAX_DEVICES] = {0};
 int sensorsCount=0;
+static owb_rmt_driver_info rmt_driver_info;
 static const char* TAG = "sensors";
 
 static void initialize();
@@ -43,7 +44,6 @@ static void initialize() {
     vTaskDelay(2000.0 / portTICK_PERIOD_MS);
 
     // Create a 1-Wire bus, using the RMT timeslot driver
-    owb_rmt_driver_info rmt_driver_info;
     owb = owb_rmt_initialize(&rmt_driver_info, GPIO_DS18B20_0, RMT_CHANNEL_1, RMT_CHANNEL_0);
     owb_use_crc(owb, true);  // enable CRC check for ROM code
 
