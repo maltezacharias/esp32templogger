@@ -72,7 +72,7 @@ void printTask(void * taskParameters) {
     vTaskDelay(5000.0 / portTICK_PERIOD_MS);
     for (int sensor=0; sensor < MAX_DEVICES;sensor++) {
         char rom_code_s[17]; // 16 Chars + Terminator
-        owb_string_from_rom_code(sensors[sensor], rom_code_s, sizeof(rom_code_s));
+        owb_string_from_rom_code(sensors[sensor]->rom_code, rom_code_s, sizeof(rom_code_s));
         ESP_LOGI(TAG,"SENSOR_DUMP: %d:(%s)", sensor, rom_code_s);   
     }        
     vTaskDelete(NULL);
