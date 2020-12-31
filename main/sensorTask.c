@@ -62,6 +62,12 @@ static void initialize() {
         owb_search_next(owb, &search_state, &found);
     }
     ESP_LOGI(TAG,"Found %d device%s", sensorsCount, sensorsCount == 1 ? "" : "s");
+    
+    for (int sensor=0; sensor < MAX_DEVICES;sensor++) {
+        char rom_code_s[17]; // 16 Chars + Terminator
+        owb_string_from_rom_code(sensors[sensor]->rom_code, rom_code_s, sizeof(rom_code_s));
+        ESP_LOGD(TAG,"SENSOR_DUMP: %d:(%s)", sensor, rom_code_s);   
+    }        
 
     bool parasitic_power = false;
     ds18b20_check_for_parasite_power(owb, &parasitic_power);
@@ -87,11 +93,10 @@ static void loop() {
 
     // Read the results immediately after conversion otherwise it may fail
     // (using printf before reading may take too long)
-    float readings[MAX_DEVICES] = { 0 };
-    DS18B20_ERROR errors[MAX_DEVICES] = { 0 };
-
+    sensorMessage sensorData = { .temperature = {0}, .errorCode = {0} };
+    
     for (int i = 0; i < sensorsCount; ++i) {
-        errors[i] = ds18b20_read_temp(sensors[i], &readings[i]);
+        sensorData.errorCode[i] = ds18b20_read_temp(sensors[i], &sensorData.temperature[i]);
     }
 
     // Print results in a separate loop, after all have been read
@@ -99,8 +104,10 @@ static void loop() {
     
     for (int i = 0; i < sensorsCount; ++i) {
         owb_string_from_rom_code(sensors[i]->rom_code, rom_code_s, sizeof(rom_code_s));
-        ESP_LOGI(TAG,"Sensor %s Temperature %.1f degrees Celsius (ERROR: %i)",rom_code_s, readings[i],errors[i]);
+        ESP_LOGD(TAG,"Sensor %i(%s) Temperature %.1f degrees Celsius (ERROR: %i)",i,rom_code_s, sensorData.temperature[i],sensorData.errorCode[i]);
     }
+
+    ESP_LOGD(TAG,"Sending temperature via Queue");
 }
 
 static void cleanup() {

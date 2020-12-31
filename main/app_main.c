@@ -52,7 +52,7 @@ void initializeQueues() {
 
 
 void app_main(void) {
-
+    ESP_LOGI(TAG,"Starting App Main");
     ESP_LOGI(TAG,"Initializing Queues");
     initializeQueues();
 
@@ -98,7 +98,7 @@ void logStackStatistics() {
     freeStackRelay       = uxTaskGetStackHighWaterMark( taskHandles.relay );
     freeStackSendPicture = uxTaskGetStackHighWaterMark( taskHandles.sendPicture );
 
-    ESP_LOGI(
+    ESP_LOGD(
         TAG,
         "Remaining Stack: Printer: %5.i  Sensor: %5.i  Camera: %5.i  Relay: %5.i  Send Picture: %5.i",
         freeStackPrinter,
