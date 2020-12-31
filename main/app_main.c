@@ -69,13 +69,17 @@ void app_main(void) {
 
 
 void printTask(void * taskParameters) {
-    vTaskDelay(5000.0 / portTICK_PERIOD_MS);
-    for (int sensor=0; sensor < MAX_DEVICES;sensor++) {
-        char rom_code_s[17]; // 16 Chars + Terminator
-        owb_string_from_rom_code(sensors[sensor]->rom_code, rom_code_s, sizeof(rom_code_s));
-        ESP_LOGI(TAG,"SENSOR_DUMP: %d:(%s)", sensor, rom_code_s);   
-    }        
-    vTaskDelete(NULL);
+
+    for (;;) {
+        sensorMessage sensorData;
+        BaseType_t receiveReturn = xQueueReceive(sensorValueQueue, &sensorData, portMAX_DELAY);
+        if (receiveReturn == pdTRUE) {
+            ESP_LOGI(TAG,"Received sensor data");
+            for (int i = 0; i < TEMPERATURE_SLOTS; i++) {
+                ESP_LOGI(TAG,"Sensor %i Temperature %.1f degrees Celsius (ERROR: %i)",i , sensorData.temperature[i],sensorData.errorCode[i]);
+            }
+        }
+    }
 }
 
 void sendPictureTask(void * TaskParameters) {

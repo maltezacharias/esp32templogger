@@ -7,6 +7,7 @@
 #include "ds18b20.h"
 #include "globals.h"
 #include "sensorTask.h"
+#include "queues.h"
 
 OneWireBus * owb;
 DS18B20_Info * sensors[MAX_DEVICES] = {0};
@@ -108,6 +109,7 @@ static void loop() {
     }
 
     ESP_LOGD(TAG,"Sending temperature via Queue");
+    xQueueOverwrite(sensorValueQueue,&sensorData);
 }
 
 static void cleanup() {
