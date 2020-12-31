@@ -23,6 +23,8 @@ static const char* TAG = "main";
 #include "camTask.h"
 #include "relayTask.h"
 
+#define DEFAULT_TASK_STACK_SIZE 4096
+
 static struct  {
     TaskHandle_t print;
     TaskHandle_t sensor;
@@ -55,13 +57,11 @@ void app_main(void) {
     initializeQueues();
 
     ESP_LOGI(TAG,"Starting Tasks");
-    
-    xTaskCreate(printTask,"printer",2048,NULL,5,&taskHandles.print);
-    xTaskCreate(sensorTask,"sensor",2048,NULL,5,&taskHandles.sensor);
-    xTaskCreate(cameraTask,"camera",2048,NULL,5,&taskHandles.camera);
-    xTaskCreate(relayTask,"relay",2048,NULL,4,&taskHandles.relay);
-    xTaskCreate(sendPictureTask,"picture",2048,NULL,4,&taskHandles.sendPicture);
-
+    xTaskCreate(printTask,"printer",DEFAULT_TASK_STACK_SIZE,NULL,5,&taskHandles.print);
+    xTaskCreate(sensorTask,"sensor",DEFAULT_TASK_STACK_SIZE,NULL,5,&taskHandles.sensor);
+    xTaskCreate(cameraTask,"camera",DEFAULT_TASK_STACK_SIZE,NULL,5,&taskHandles.camera);
+    xTaskCreate(relayTask,"relay",DEFAULT_TASK_STACK_SIZE,NULL,4,&taskHandles.relay);
+    xTaskCreate(sendPictureTask,"picture",DEFAULT_TASK_STACK_SIZE,NULL,4,&taskHandles.sendPicture);
 
     vTaskDelay(10000 / portTICK_PERIOD_MS);
     logStackStatistics();
