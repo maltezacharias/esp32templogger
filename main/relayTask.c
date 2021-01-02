@@ -1,13 +1,14 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
-#include "switchTask.h"
+#include "relayTask.h"
 #include "driver/gpio.h"
 
-static const char* TAG = "switch";
+static const char* TAG = "switchTask";
 
-void switchingTask(void *taskParameters) {
+void relayTask(void *taskParameters) {
 
+    ESP_LOGI(TAG,"Initializing GPIO");
     uint32_t level = 0;
     gpio_config_t config = {
         .mode = GPIO_MODE_OUTPUT,
@@ -17,15 +18,13 @@ void switchingTask(void *taskParameters) {
         .pin_bit_mask = 0LL
     };
     config.pin_bit_mask |= 1LL << GPIO_SWITCH;
-
-    ESP_LOGI(TAG, "Configuring GPIO");
     gpio_config(&config);
 
     for (;;) {
-        ESP_LOGI(TAG, "Toggling Switch GPIO");
+        ESP_LOGI(TAG, "Set Relay GPIO: %i",level);
         gpio_set_level(GPIO_SWITCH, level);
         level ^= 1; // flip level        
-        vTaskDelay(500 / portTICK_PERIOD_MS);
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
 
 }
