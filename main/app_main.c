@@ -14,6 +14,7 @@ static const char* TAG = "main";
 #include "sensorTask.h"
 #include "camTask.h"
 #include "relayTask.h"
+#include "wifi.h"
 
 #define DEFAULT_TASK_STACK_SIZE 4096
 
@@ -54,6 +55,8 @@ void app_main(void) {
     xTaskCreate(cameraTask,"camera",DEFAULT_TASK_STACK_SIZE,NULL,5,&taskHandles.camera);
     xTaskCreate(relayTask,"relay",DEFAULT_TASK_STACK_SIZE,NULL,4,&taskHandles.relay);
     xTaskCreate(sendPictureTask,"picture",DEFAULT_TASK_STACK_SIZE,NULL,4,&taskHandles.sendPicture);
+
+    connect_wifi(); 
 
     vTaskDelay(10000 / portTICK_PERIOD_MS);
     logStackStatistics();

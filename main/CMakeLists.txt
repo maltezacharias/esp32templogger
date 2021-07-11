@@ -1,6 +1,6 @@
 idf_component_register(
-    SRCS "app_main.c" "relayTask.c" "camTask.c" "mqttTask.c" "sensorTask.c"
+    SRCS "wifi.c" "app_main.c" "relayTask.c" "camTask.c" "mqttTask.c" "sensorTask.c"
     INCLUDE_DIRS ""
 )
 
-target_compile_options(${COMPONENT_LIB} PRIVATE -D LOG_LOCAL_LEVEL=ESP_LOG_DEBUG)
+target_compile_options(${COMPONENT_LIB} PRIVATE -D LOG_LOCAL_LEVEL=ESP_LOG_INFO)
