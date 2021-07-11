@@ -69,9 +69,9 @@ void printTask(void * taskParameters) {
         sensorMessage sensorData;
         BaseType_t receiveReturn = xQueueReceive(sensorValueQueue, &sensorData, portMAX_DELAY);
         if (receiveReturn == pdTRUE) {
-            ESP_LOGI(TAG,"Received sensor data");
+            ESP_LOGD(TAG,"Received sensor data");
             for (int i = 0; i < TEMPERATURE_SLOTS; i++) {
-                ESP_LOGI(TAG,"Sensor %i Temperature %.1f degrees Celsius (ERROR: %i)",i , sensorData.temperature[i],sensorData.errorCode[i]);
+                ESP_LOGD(TAG,"Sensor %i Temperature %.1f degrees Celsius (ERROR: %i)",i , sensorData.temperature[i],sensorData.errorCode[i]);
             }
         }
     }
@@ -81,11 +81,11 @@ void sendPictureTask(void * TaskParameters) {
     for  (;;) {
         ESP_LOGI("main:sendPicture", "Trying to get Semaphore and simulate sending");
         xSemaphoreTake(pictureSemaphore,portMAX_DELAY);
-        ESP_LOGI("main:sendPicture", "Got picture, sending!");
+        ESP_LOGD("main:sendPicture", "Got picture, sending!");
         vTaskDelay(300 / portTICK_PERIOD_MS);
-        ESP_LOGI("main:sendPicture", "Picture sent, releasing semaphor");
+        ESP_LOGD("main:sendPicture", "Picture sent, releasing semaphore");
         xSemaphoreGive(pictureSemaphore);
-        vTaskDelay(5000 / portTICK_PERIOD_MS);
+        vTaskDelay(10000 / portTICK_PERIOD_MS);
     }
 }
 
