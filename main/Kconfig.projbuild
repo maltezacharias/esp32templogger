@@ -36,6 +36,12 @@ menu "ESP32 WiFi Temperature Logger Configuration"
             Maximum number of supported OneWire Devices connected to the OneWire Pin,
             limits the memory allocation for device addresses.
 
+    config TEMPERATURE_SAMPLE_PERIOD
+        int "Sample temperatures every n millisecons"
+        default 10000
+        help
+            Temperatures will be sampled every n milliseconds. 
+
     config ENABLE_STRONG_PULLUP_GPIO
         bool "Enable strong pull-up controlled by GPIO (MOSFET)"
         default n
